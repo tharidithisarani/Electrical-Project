@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootTechnisiyan" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.TechnisiyanFormController">
+   <children>
+      <Pane prefHeight="125.0" prefWidth="1500.0" style="-fx-background-color: #5D6D7E;">
+         <children>
+            <JFXButton fx:id="btnTechDetail" layoutX="1163.0" layoutY="27.0" onAction="#btnTechDetailOnAction" prefHeight="69.0" prefWidth="234.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="More Details" textFill="#f4d03f">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="rootTechDashBoard" layoutY="125.0" prefHeight="925.0" prefWidth="1500.0">
+         <children>
+            <ImageView fitHeight="920.0" fitWidth="1500.0">
+               <image>
+                  <Image url="@../asserts.icon/electrical_work_templates_ppt_340148.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="714.0" layoutY="40.0" text="Attend : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cmbAttend" layoutX="801.0" layoutY="36.0" prefHeight="31.0" prefWidth="166.0" />
+            <Label layoutX="83.0" layoutY="27.0" text="Name : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cmbName" layoutX="158.0" layoutY="23.0" prefHeight="31.0" prefWidth="450.0" />
+            <Label layoutX="1125.0" layoutY="35.0" text="Technisiyan ID : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTechID" layoutX="1274.0" layoutY="37.0" text=" ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblAttendanseOK" layoutX="585.0" layoutY="209.0" prefHeight="252.0" prefWidth="867.0">
+               <columns>
+                  <TableColumn fx:id="colAttendNo" prefWidth="75.0" text="No" />
+                  <TableColumn fx:id="conTechID" prefWidth="100.33334350585938" text="Tech-ID" />
+                  <TableColumn fx:id="conname" prefWidth="252.33334350585938" text="Name" />
+                  <TableColumn fx:id="colContace" prefWidth="203.0" text="Concate No" />
+                  <TableColumn fx:id="colAttendense" prefWidth="116.33331298828125" text="Attend" />
+                  <TableColumn fx:id="colAction" prefWidth="117.0" />
+               </columns>
+            </TableView>
+            <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="1325.0" layoutY="137.0" onAction="#btnAddOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <Pane fx:id="paneSummary" layoutY="471.0" prefHeight="444.0" prefWidth="1500.0">
+               <children>
+                  <Label layoutX="809.0" layoutY="21.0" text="Technisiyan Summary ......">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tblSummary" layoutX="346.0" layoutY="83.0" prefHeight="339.0" prefWidth="1102.0">
+                     <columns>
+                        <TableColumn fx:id="colNo" prefWidth="75.0" text="No" />
+                        <TableColumn fx:id="colTechID" prefWidth="176.66668701171875" text="Tech_ID" />
+                        <TableColumn fx:id="colNIC" prefWidth="225.33331298828125" text="NIC" />
+                        <TableColumn fx:id="colName" prefWidth="267.6666564941406" text="Name" />
+                        <TableColumn fx:id="colToolCode" minWidth="0.0" prefWidth="147.0" text="Tool_Code" />
+                        <TableColumn fx:id="colContact" prefWidth="203.66668701171875" text="Contact" />
+                     </columns>
+                  </TableView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

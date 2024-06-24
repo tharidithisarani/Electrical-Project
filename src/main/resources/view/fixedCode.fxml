@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootFixedCodeLode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="317.0" prefWidth="698.0" style="-fx-background-color: #F6DDCC;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.FixedCodeFormController">
+   <children>
+      <ImageView fitHeight="317.0" fitWidth="698.0">
+         <image>
+            <Image url="@../asserts.icon/electrical_work_templates_ppt_340150.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="336.0" layoutY="14.0" prefHeight="39.0" prefWidth="276.0" text="If you have forgotten your password, &#10;Then enter the fixed code number given below." textAlignment="CENTER">
+         <font>
+            <Font name="Ebrima Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFixedCode" layoutX="361.0" layoutY="213.0" prefHeight="26.0" prefWidth="203.0" promptText="Enter Code">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ImageView fitHeight="46.0" fitWidth="46.0" layoutX="292.0" layoutY="203.0">
+         <image>
+            <Image url="@../asserts.icon/Gartoon-Team-Gartoon-Misc-Stock-Enter-Group.512.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btnOk" layoutX="497.0" layoutY="257.0" onAction="#btnOkOnAction" prefHeight="46.0" prefWidth="187.0" style="-fx-background-color: #34495e; -fx-background-radius: 50;" text=" OK" textFill="#e8e8e8">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asserts.icon/lock_note.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <TextField fx:id="txtUserName" layoutX="361.0" layoutY="169.0" prefHeight="26.0" prefWidth="203.0" promptText="Enter UserName">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ImageView fitHeight="46.0" fitWidth="46.0" layoutX="292.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asserts.icon/Double-J-Design-Origami-Colored-Pencil-Blue-user.256.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="252.0" fitWidth="276.0">
+         <image>
+            <Image url="@../asserts.icon/forgot-password.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

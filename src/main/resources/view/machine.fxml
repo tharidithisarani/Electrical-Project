@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="1050.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.MachineFormController">
+   <children>
+      <ImageView fitHeight="1050.0" fitWidth="1500.0">
+         <image>
+            <Image url="@../asserts.icon/electrical_work_templates_ppt_340120.jpg" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="150.0" prefWidth="1500.0" style="-fx-background-color: #5D6D7E;">
+         <children>
+            <Label layoutX="121.0" layoutY="21.0" text="Machine" textFill="#fcf7f7">
+               <font>
+                  <Font name="System Bold Italic" size="58.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="68.0" layoutY="238.0" text="Machine Name : ">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="txtSupplierName" layoutX="245.0" layoutY="231.0" prefHeight="35.0" prefWidth="341.0" />
+      <Label layoutX="69.0" layoutY="303.0" text="Description : ">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtDescription" layoutX="217.0" layoutY="305.0" prefHeight="42.0" prefWidth="668.0" text="prodect description">
+         <font>
+            <Font size="14.0" />
+         </font></TextArea>
+      <Label layoutX="75.0" layoutY="201.0" text="Machine Code : ">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMachineCode" layoutX="248.0" layoutY="205.0" prefHeight="20.0" prefWidth="52.0" text=" ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAdd1" buttonType="RAISED" layoutX="940.0" layoutY="461.0" onAction="#btnAddOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnUpdate1" buttonType="RAISED" layoutX="771.0" layoutY="460.0" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Update" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnDelete1" buttonType="RAISED" layoutX="622.0" layoutY="459.0" onAction="#btnDeleteOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Delete" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnClear1" buttonType="RAISED" layoutX="441.0" layoutY="461.0" onAction="#btnClearOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Clear" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="944.0" layoutY="197.0" text="Technisiyan ID : ">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="cmbTechID" layoutX="1125.0" layoutY="195.0" prefHeight="31.0" prefWidth="215.0" />
+      <TableView fx:id="tblMachine" layoutX="309.0" layoutY="674.0" prefHeight="293.0" prefWidth="885.0">
+         <columns>
+            <TableColumn fx:id="colCode" prefWidth="75.0" text="Code" />
+            <TableColumn fx:id="colMachineName" prefWidth="402.3333435058594" text="Machine Name" />
+            <TableColumn fx:id="colTechID" prefWidth="212.66665649414062" text="Technisiyan ID" />
+            <TableColumn fx:id="colAction" prefWidth="202.3333740234375" text="Action" />
+         </columns>
+      </TableView>
+      <Pane layoutY="524.0" opacity="0.45" prefHeight="520.0" prefWidth="1500.0" style="-fx-background-color: #BDC3C7;" />
+   </children>
+</AnchorPane>

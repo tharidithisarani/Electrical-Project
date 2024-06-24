@@ -1,0 +1,14 @@
+package lk.ijse.company.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+
+public class Techniciyan {
+    private String attend;
+    private String name;
+}
