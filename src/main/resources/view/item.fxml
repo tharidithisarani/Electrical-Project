@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,25 +11,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootItem" prefHeight="1050.0" prefWidth="1500.0" style="-fx-background-color: #F8C471;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.ItemFormController">
+<AnchorPane fx:id="rootItem" style="-fx-background-color: #F8C471;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.ItemFormController">
    <children>
       <Pane layoutY="150.0" prefHeight="900.0" prefWidth="1500.0">
          <children>
-            <ImageView fitHeight="900.0" fitWidth="1500.0">
+            <ImageView fitHeight="900.0" fitWidth="1500.0" opacity="0.72">
                <image>
                   <Image url="@../asserts.icon/bigstock-Electrician-Work-With-Electric-331842238-768x512.jpg" />
                </image>
             </ImageView>
-            <TableView fx:id="tblItem" layoutX="282.0" layoutY="505.0" prefHeight="325.0" prefWidth="1038.0">
+            <TextField fx:id="txtCode" layoutX="247.0" layoutY="78.0" prefHeight="26.0" prefWidth="606.0" promptText="Item Code :" />
+            <TextField fx:id="txtDescription" layoutX="142.0" layoutY="169.0" prefHeight="26.0" prefWidth="606.0" promptText="Item Description :" />
+            <TextField fx:id="txtUnitPrice" layoutX="986.0" layoutY="170.0" prefHeight="35.0" prefWidth="346.0" promptText="Unit Price :" />
+            <TextField fx:id="txtQtyOnHand" layoutX="881.0" layoutY="237.0" prefHeight="35.0" prefWidth="262.0" promptText="Qty. on Hand :" />
+            <JFXButton id="btnAddNewCustomer" fx:id="btnAddNewItem" layoutX="1233.0" layoutY="33.0" onAction="#btnAddNew_OnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand;" text="+ New Item" />
+            <JFXButton id="btnSave" fx:id="btnSave" layoutX="942.0" layoutY="346.0" onAction="#btnSave_OnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Save" />
+            <JFXButton id="btnDelete" fx:id="btnDelete" layoutX="1026.0" layoutY="346.0" onAction="#btnDelete_OnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Delete" />
+            <TableView fx:id="tblItems" layoutX="398.0" layoutY="493.0" prefHeight="285.0" prefWidth="615.0">
                <columns>
-                  <TableColumn fx:id="colCode" prefWidth="105.66667175292969" text="Code" />
-                  <TableColumn fx:id="colName" prefWidth="372.3333282470703" text="Name" />
-                  <TableColumn fx:id="colStatus" prefWidth="212.66665649414062" text="Status" />
-                  <TableColumn fx:id="colUnitPrice" prefWidth="183.99996948242188" text="Unit Price" />
-                  <TableColumn fx:id="colQTY" prefWidth="161.0" text="QTY" />
+                  <TableColumn prefWidth="97.0" text="Code" />
+                  <TableColumn prefWidth="204.0" text="Description" />
+                  <TableColumn prefWidth="130.0" text="Qty. on Hand" />
+                  <TableColumn prefWidth="163.0" text="Unit Price" />
                </columns>
             </TableView>
-            <Pane layoutY="434.0" opacity="0.45" prefHeight="464.0" prefWidth="1500.0" style="-fx-background-color: #BDC3C7;" />
          </children>
       </Pane>
       <Pane prefHeight="150.0" prefWidth="1500.0" style="-fx-background-color: #5D6D7E;">
@@ -63,51 +66,11 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="874.0" layoutY="507.0" onAction="#btnAddOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="705.0" layoutY="506.0" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Update" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnClear" buttonType="RAISED" layoutX="375.0" layoutY="507.0" onAction="#btnClearOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Clear" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
       <Label layoutX="57.0" layoutY="323.0" text="Name :">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCode" layoutX="172.0" layoutY="231.0" onAction="#txtCodeSearchOnAction" prefHeight="35.0" prefWidth="245.0" />
-      <Label layoutX="54.0" layoutY="390.0" text="Status :">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="txtStatus" layoutX="127.0" layoutY="383.0" prefHeight="38.0" prefWidth="544.0" />
-      <TextField fx:id="txtName" layoutX="142.0" layoutY="318.0" prefHeight="35.0" prefWidth="245.0" />
-      <TextField fx:id="txtUnitPrice" layoutX="887.0" layoutY="320.0" prefHeight="35.0" prefWidth="245.0" />
-      <TextField fx:id="txtQty" layoutX="829.0" layoutY="390.0" prefHeight="35.0" prefWidth="117.0" />
-      <Label layoutX="1278.0" layoutY="184.0" text="user_ID : ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtUserID" layoutX="1330.0" layoutY="180.0" prefHeight="0.0" prefWidth="73.0" />
     
    </children>
 </AnchorPane>

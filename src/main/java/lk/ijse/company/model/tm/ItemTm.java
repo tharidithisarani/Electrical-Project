@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 
 public class ItemTm {
     private String code;
-    private String name;
-    private String status;
-    private String unitPrice;
-    private String QTY;
-    private String ID;
+    private String description;
+    private BigDecimal unitPrice;
+    private int qtyOnHand;
 
 }

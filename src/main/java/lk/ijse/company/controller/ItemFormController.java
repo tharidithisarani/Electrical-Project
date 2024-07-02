@@ -10,347 +10,237 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.company.database.DbConnection;
 import lk.ijse.company.model.Item;
 import lk.ijse.company.model.tm.ItemTm;
-import lk.ijse.company.reposotory.ItemRepo;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemFormController {
+    @FXML
+    private JFXButton btnAddNewItem;
 
     @FXML
-    private JFXButton btnAdd;
+    private JFXButton btnDelete;
 
     @FXML
-    private JFXButton btnClear;
+    private JFXButton btnSave;
 
     @FXML
     private JFXButton btnSupplier;
 
     @FXML
-    private JFXButton btnUpdate;
-
-    @FXML
-    private TableColumn<?, ?> colCode;
-
-    @FXML
-    private TableColumn<?, ?> colName;
-
-    @FXML
-    private TableColumn<?, ?> colStatus;
-
-    @FXML
-    private TableColumn<?, ?> colQTY;
-
-    @FXML
-    private TableColumn<?, ?> colUnitPrice;
-
-    @FXML
     private AnchorPane rootItem;
 
     @FXML
-    private TableView<ItemTm> tblItem;
+    private TableView<ItemTm> tblItems;
 
     @FXML
     private TextField txtCode;
 
     @FXML
-    private TextField txtName;
+    private TextField txtDescription;
 
     @FXML
-    private TextField txtQty;
+    private TextField txtQtyOnHand;
 
     @FXML
     private TextField txtUnitPrice;
 
-    @FXML
-    private TextArea txtStatus;
-
-    @FXML
-    private TextField txtUserID;
-
-
-    private List<Item> itemList = new ArrayList<>();
-
     public void initialize() {
-        this.itemList = getAllItem();
-        setCellValueFactory();
-        loadItemTable();
+        tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
+        tblItems.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
+        tblItems.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qtyOnHand"));
+        tblItems.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+
+        initUI();
+
+        tblItems.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnDelete.setDisable(newValue == null);
+            btnSave.setText(newValue != null ? "Update" : "Save");
+            btnSave.setDisable(newValue == null);
+
+            if (newValue != null) {
+                txtCode.setText(newValue.getCode());
+                txtDescription.setText(newValue.getDescription());
+                txtUnitPrice.setText(newValue.getUnitPrice().setScale(2).toString());
+                txtQtyOnHand.setText(newValue.getQtyOnHand() + "");
+
+                txtCode.setDisable(false);
+                txtDescription.setDisable(false);
+                txtUnitPrice.setDisable(false);
+                txtQtyOnHand.setDisable(false);
+            }
+        });
+
+        txtQtyOnHand.setOnAction(event -> btnSave.fire());
+        loadAllItems();
     }
 
-  /*  private void loadItemTable() {
-        ObservableList<ItemTm> tmList = FXCollections.observableArrayList();
+    private void initUI() {
+        txtCode.clear();
+        txtDescription.clear();
+        txtUnitPrice.clear();
+        txtQtyOnHand.clear();
+        txtCode.setDisable(true);
+        txtDescription.setDisable(true);
+        txtUnitPrice.setDisable(true);
+        txtQtyOnHand.setDisable(true);
+        txtCode.setEditable(false);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+    }
 
+    private void loadAllItems() {
+        tblItems.getItems().clear();
         try {
-            List<Item> itemsList = ItemRepo.getAll();
-            for (Item customer : itemsList) {
-                tmList.add(new tmList(
-                        item.getCode(),
-                        item.getName(),
-                        item.getStatus(),
-                        item.getUnitPrice(),
-                        item.getQTY(),
-                        item.getUserID()
-                ));
+            /*Get all items*/
+            Connection connection = DbConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+            while (rst.next()) {
+                tblItems.getItems().add(new ItemTm(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-        tblCustomer.setItems(customerTMS);
     }
-
-   */
-
-
-    private void setCellValueFactory() {
-        colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        colQTY.setCellValueFactory(new PropertyValueFactory<>("QTY"));
-    }
-
-    private void loadItemTable() {
-        ObservableList<ItemTm> tmList = FXCollections.observableArrayList();
-
-        for (Item item : itemList) {
-            ItemTm itemTm = new ItemTm(
-                    item.getCode(),
-                    item.getName(),
-                    item.getStatus(),
-                    item.getUnitPrice(),
-                    item.getQTY(),
-                    item.getUserID()
-            );
-
-            tmList.add(itemTm);
-        }
-        tblItem.setItems(tmList);
-        ItemTm selectedItem = tblItem.getSelectionModel().getSelectedItem();
-        System.out.println("selectedItem = " + selectedItem);
-    }
-
-
-
-    private List<Item> getAllItem() {
-        List<Item> itemList = null;
-        try {
-            itemList = ItemRepo.getAll();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return itemList;
-    }
-
-
 
     @FXML
-    void btnAddOnAction(ActionEvent event) {
+    void btnAddNew_OnAction(ActionEvent event) {
+        txtCode.setDisable(false);
+        txtDescription.setDisable(false);
+        txtUnitPrice.setDisable(false);
+        txtQtyOnHand.setDisable(false);
+        txtCode.clear();
+        txtCode.setText(generateNewId());
+        txtDescription.clear();
+        txtUnitPrice.clear();
+        txtQtyOnHand.clear();
+        txtDescription.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblItems.getSelectionModel().clearSelection();
+
+    }
+
+    private String generateNewId() {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
+            if (rst.next()) {
+                String id = rst.getString("code");
+                int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
+                return String.format("I00-%03d", newItemId);
+            } else {
+                return "I00-001";
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+        return "I00-001";
+    }
+
+    @FXML
+    void btnDelete_OnAction(ActionEvent event) {
+        String code = tblItems.getSelectionModel().getSelectedItem().getCode();
+        try {
+            if (!existItem(code)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
+            }
+            Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
+            pstm.setString(1, code);
+            pstm.executeUpdate();
+
+            tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
+            tblItems.getSelectionModel().clearSelection();
+            initUI();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the item " + code).show();
+        }
+    }
+
+    @FXML
+    void btnSave_OnAction(ActionEvent event) {
         String code = txtCode.getText();
-        String name = txtName.getText();
-        String status = txtStatus.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String QTY = txtQty.getText();
-        String ID = "1"; // Set user ID to 1
+        String description = txtDescription.getText();
 
-        Item item = new Item(code, name, status, unitPrice, QTY, ID);
+        if (!description.matches("[A-Za-z0-9 ]+")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid description").show();
+            txtDescription.requestFocus();
+            return;
+        } else if (!txtUnitPrice.getText().matches("^[0-9]+[.]?[0-9]*$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid unit price").show();
+            txtUnitPrice.requestFocus();
+            return;
+        } else if (!txtQtyOnHand.getText().matches("^\\d+$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid qty on hand").show();
+            txtQtyOnHand.requestFocus();
+            return;
+        }
 
-        try {
-            boolean isAdd = ItemRepo.add(item);
-            if (isAdd){
-                new Alert(Alert.AlertType.CONFIRMATION,"This" + code + "item is SAVED !").show();
+        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
+        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
+
+
+        if (btnSave.getText().equalsIgnoreCase("save")) {
+            try {
+                if (existItem(code)) {
+                    new Alert(Alert.AlertType.ERROR, code + " already exists").show();
+                }
+                //Save Item
+                Connection connection = DbConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)");
+                pstm.setString(1, code);
+                pstm.setString(2, description);
+                pstm.setBigDecimal(3, unitPrice);
+                pstm.setInt(4, qtyOnHand);
+                pstm.executeUpdate();
+                tblItems.getItems().add(new ItemTm(code, description, unitPrice, qtyOnHand));
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+        } else {
+            try {
 
-    }
+                if (!existItem(code)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
+                }
+                /*Update Item*/
+                Connection connection = DbConnection.getInstance().getConnection();
+                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
+                pstm.setString(1, description);
+                pstm.setBigDecimal(2, unitPrice);
+                pstm.setInt(3, qtyOnHand);
+                pstm.setString(4, code);
+                pstm.executeUpdate();
 
-    private void clearForm(){
-        txtCode.setText("");
-        txtName.setText("");
-        txtStatus.setText("");
-        txtUnitPrice.setText("");
-        txtQty.setText("");
-        txtUserID.setText("");
-    }
-
-    @FXML
-    void btnClearOnAction(ActionEvent event) {
-        clearForm();
-
-    }
-
-    @FXML
-    void btnSupplierOnAction(ActionEvent event) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/supplier.fxml"));
-               Stage stage = (Stage) rootItem.getScene().getWindow();
-                rootItem.getChildren().clear();
-                rootItem.getChildren().add(rootNode);
-                stage.setTitle("Supplier Form");
-                stage.centerOnScreen();
-
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String code = txtCode.getText();
-        String name = txtName.getText();
-        String status = txtStatus.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String QTY = txtQty.getText();
-        String ID = txtUserID.getText();
-
-        Item item = new Item(code, name, status, unitPrice, QTY, ID);
-
-        try {
-            boolean isUpdated = ItemRepo.update(item);
-            if (isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
-                clearForm();
-            } loadItemTable();
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-    }
-
-    @FXML
-    void txtCodeSearchOnAction(ActionEvent event) {
-        String code = txtCode.getText();
-
-        try {
-            Item item = ItemRepo.searchByCode(code);
-
-            if (item != null) {
-                txtCode.setText(item.getCode());
-                txtName.setText(item.getName());
-                txtStatus.setText(item.getStatus());
-                txtUnitPrice.setText(item.getUnitPrice());
-                txtQty.setText(item.getQTY());
-                txtUserID.setText(item.getID());
-            }else {
-                new Alert(Alert.AlertType.ERROR,"This" + code + " Item code is new, You can't Search it !").show();
+                ItemTm selectedItem = tblItems.getSelectionModel().getSelectedItem();
+                selectedItem.setDescription(description);
+                selectedItem.setQtyOnHand(qtyOnHand);
+                selectedItem.setUnitPrice(unitPrice);
+                tblItems.refresh();
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
 
+        btnAddNewItem.fire();
     }
 
-}
-
-/*
-public class ItemFormController {
-
-    @FXML
-    private JFXButton btnAdd;
-
-    @FXML
-    private JFXButton btnClear;
-
-    @FXML
-    private JFXButton btnSupplier;
-
-    @FXML
-    private JFXButton btnUpdate;
-
-    @FXML
-    private TableColumn<?, ?> colAction;
-
-    @FXML
-    private TableColumn<?, ?> colCode;
-
-    @FXML
-    private TableColumn<?, ?> colDescription;
-
-    @FXML
-    private TableColumn<?, ?> colQtyOnHand;
-
-    @FXML
-    private TableColumn<?, ?> colUnitPrice;
-
-    @FXML
-    private AnchorPane rootItem;
-
-    @FXML
-    private TableView<ItemTm> tblItem;
-
-    @FXML
-    private TextField txtItemCode;
-
-    @FXML
-    private JFXTextArea txtItemName;
-
-    @FXML
-    private JFXTextArea txtQTY;
-
-    @FXML
-    private JFXTextArea txtUnitPrice;
-
-    private List<Item> itemList = new ArrayList<>();
-
-
-
-
-
-    private void lodeNextItemCode() {
-        try {
-            String currentId = ItemRepo.itemCode();
-            String nextId = nextCode(currentId);
-
-            txtItemCode.setText(nextId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String nextCode(String currentId) {
-        if (currentId != null) {
-            String[] split = currentId.split("O");
-//            System.out.println("Arrays.toString(split) = " + Arrays.toString(split));
-            int id = Integer.parseInt(split[1]);    //2
-            return "O" + ++id;
-
-        }
-        return "O1";
-    }
-
-    private List<Customer> getAllItem() {
-        List<Customer> itemList = null;
-        itemList = ItemRepo.getAll();
-        return itemList;
-    }
-
-    @FXML
-    void btnAddOnAction(ActionEvent event) {
-        String itemCode = txtItemCode.getText();
-        String name = txtItemName.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String qty = txtQTY.getText();
-
-        Item item = new Item(itemCode, name, unitPrice, qty);
-
-        try {
-            boolean isAdd = ItemRepo.add(item);
-            if (isAdd) {
-                new Alert(Alert.AlertType.CONFIRMATION, "customer saved!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-
-    }
-
-    @FXML
-    void btnClearOnAction(ActionEvent event) {
-        txtItemCode.setText("");
-        txtItemName.setText("");
-        txtUnitPrice.setText("");
-        txtQTY.setText("");
-
+    @SneakyThrows
+    private boolean existItem(String code) {
+        Connection connection = DbConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
+        pstm.setString(1, code);
+        return pstm.executeQuery().next();
     }
 
     @FXML
@@ -361,47 +251,6 @@ public class ItemFormController {
         rootItem.getChildren().add(rootNode);
         stage.setTitle("Supplier Form");
         stage.centerOnScreen();
-
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String name = txtItemName.getText();
-        String unitPrice = txtUnitPrice.getText();
-        String qty = txtQTY.getText();
-        String code = txtItemCode.getText();
-
-        Item item = new Item(name, unitPrice, qty, code);
-
-        try {
-            boolean isUpdate = ItemRepo.update(item);
-            if(isUpdate){
-                new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-
-    }
-
-    @FXML
-    void txtItemCodeSearchOnAction(ActionEvent event) {
-        String code = txtItemCode.getText();
-
-        try {
-            Item item = ItemRepo.searchByCode(code);
-
-            if (item != null) {
-                txtItemCode.setText(item.getCode());
-                txtItemName.setText(item.getName());
-                txtUnitPrice.setText(item.getUnitPrice());
-                txtQTY.setText(item.getQty());
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-
     }
 
 }
-*/

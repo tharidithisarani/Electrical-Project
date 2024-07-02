@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.company.model.Item;
 import lk.ijse.company.model.TechDetail;
-import lk.ijse.company.reposotory.ItemRepo;
 import lk.ijse.company.reposotory.TechDetailRepo;
 
 import java.sql.SQLException;

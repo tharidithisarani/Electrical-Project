@@ -1,4 +1,4 @@
-CREATE DATABASE CN_Electronic_Shop;
+/*CREATE DATABASE CN_Electronic_Shop;
        USE CN_Electronic_Shop;
 
 CREATE TABLE user(
@@ -205,3 +205,18 @@ select oc.cus_id, oc.order_id, od.code, oc.date, i.name, oc.qty, i.qty, i.unit_p
 from ordinary_cus as oc
     join order_detail od on oc.order_ID = od.order_ID
     join item i on od.code = i.code;
+*/
+
+
+create database shop;
+
+use shop;
+
+`DROP TABLE IF EXISTS `Item`;
+CREATE TABLE `Item` (
+                        `code` varchar(255) NOT NULL,
+                        `description` varchar(255) DEFAULT NULL,
+                        `qtyOnHand` int(10) DEFAULT NULL,
+                        `unitPrice` decimal(10,2) DEFAULT NULL,
+                        PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;`
