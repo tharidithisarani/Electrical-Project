@@ -32,6 +32,30 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public class CustomerFormController {
     @FXML
     private JFXButton btnAddCart;
@@ -52,7 +76,7 @@ public class CustomerFormController {
     private JFXButton btnRegPermenentCustomer;
 
     @FXML
-    private JFXComboBox<?> cmbItemCode;
+    private JFXComboBox<String> cmbItemCode;
 
     @FXML
     private Label lblCusID;
@@ -88,7 +112,7 @@ public class CustomerFormController {
     private AnchorPane rootOrdinaryBuyer;
 
     @FXML
-    private TableView<?> tblOrderDetails;
+    private TableView<OrderDetailTm> tblOrderDetails;
 
     @FXML
     private TextField txtDescription;
@@ -202,14 +226,21 @@ public class CustomerFormController {
 
         });
 
-        loadAllCustomerIds();
         loadAllItemCodes();
     }
 
     private void loadAllItemCodes() {
-    }
-
-    private void loadAllCustomerIds() {
+        try {
+            /*Get all items*/
+            Connection connection = DbConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+            while (rst.next()) {
+                cmbItemCode.getItems().add(rst.getString("code"));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     private String generateNewOrderId() {
@@ -233,9 +264,16 @@ public class CustomerFormController {
     }
 
     private void enableOrDisablePlaceOrderButton() {
+        btnPlaceOrder.setDisable(!(cmbItemCode.getSelectionModel().getSelectedItem() != null && !tblOrderDetails.getItems().isEmpty()));
     }
 
     private void calculateTotal() {
+        BigDecimal total = new BigDecimal(0);
+
+        for (OrderDetailTm detail : tblOrderDetails.getItems()) {
+            total = total.add(detail.getTotal());
+        }
+        lblTotal.setText("Total: " +total);
     }
 
     private Object getItemCount() throws SQLException {
@@ -343,53 +381,42 @@ public class CustomerFormController {
 
     @FXML
     void btnAddCartOnAction(ActionEvent event) {
-        String code = cmbItemCode.getValue();
-        String itemName = lblName.getText();
-        double unitPrice = Double.parseDouble(lblUnitPrice.getText());
-        int qty = Integer.parseInt(txtQTY.getText());
-        double total = unitPrice * qty;
-        JFXButton btnRemove = new JFXButton("Remove");
-        btnRemove.setCursor(Cursor.HAND);
-
-        btnRemove.setOnAction((e) -> {
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure you want to remove this item?", yes, no).showAndWait();
-
-            if (type.orElse(no) == yes){
-                int selectedIndex = tblOrderCart.getSelectionModel().getSelectedIndex();
-                cartList.remove(selectedIndex);
-
-                tblOrderCart.refresh();
-                calculateNetTotal();
-            }
-
-        });
-
-        for (int i = 0; i < tblOrderCart.getItems().size(); i++){
-            if (code.equals(colItemCode.getCellData(i))){
-                qty += cartList.get(i).getQty();
-                total = qty * unitPrice;
-
-                cartList.get(i).setQty(qty);
-                cartList.get(i).setTotal(total);
-
-                tblOrderCart.refresh();
-                calculateNetTotal();
-                txtQTY.setText("");
-                return;
-            }
+        if (!txtQty.getText().matches("\\d+") || Integer.parseInt(txtQty.getText()) <= 0 ||
+                Integer.parseInt(txtQty.getText()) > Integer.parseInt(txtQtyOnHand.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Invalid qty").show();
+            txtQty.requestFocus();
+            txtQty.selectAll();
+            return;
         }
-        CartTm cartTm = new CartTm(code, itemName, unitPrice, qty, total, btnRemove);
 
-        cartList.add(cartTm);
+        String itemCode = cmbItemCode.getSelectionModel().getSelectedItem();
+        String description = txtDescription.getText();
+        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
+        int qty = Integer.parseInt(txtQty.getText());
+        BigDecimal total = unitPrice.multiply(new BigDecimal(qty)).setScale(2);
 
-        tblOrderCart.setItems(cartList);
-        txtQTY.setText("");
-        calculateNetTotal();
+        boolean exists = tblOrderDetails.getItems().stream().anyMatch(detail -> detail.getCode().equals(itemCode));
 
+        if (exists) {
+            OrderDetailTm orderDetailTm = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(itemCode)).findFirst().get();
 
+            if (btnAddCart.getText().equalsIgnoreCase("Update")) {
+                orderDetailTm.setQty(qty);
+                orderDetailTm.setTotal(total);
+                tblOrderDetails.getSelectionModel().clearSelection();
+            } else {
+                orderDetailTm.setQty(orderDetailTm.getQty() + qty);
+                total = new BigDecimal(orderDetailTm.getQty()).multiply(unitPrice).setScale(2);
+                orderDetailTm.setTotal(total);
+            }
+            tblOrderDetails.refresh();
+        } else {
+            tblOrderDetails.getItems().add(new OrderDetailTm(itemCode, description, qty, unitPrice, total));
+        }
+        cmbItemCode.getSelectionModel().clearSelection();
+        cmbItemCode.requestFocus();
+        calculateTotal();
+        enableOrDisablePlaceOrderButton();
     }
 
     private void calculateNetTotal() {
@@ -464,7 +491,7 @@ public class CustomerFormController {
 
     }
 
-    @FXML
+    /*@FXML
     void cmbItemOnAction(ActionEvent event) throws IOException {
         String code = (String) cmbItemCode.getValue();
         try {
@@ -480,46 +507,106 @@ public class CustomerFormController {
 
         txtQTY.requestFocus();
 
-    }
+    }*/
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
-        String orderId = lblOrderId.getText();
-        String cusId = lblCusID.getText();
-        Date date = Date.valueOf(LocalDate.now());
+        boolean b = saveOrder(orderId, LocalDate.now(),
+                tblOrderDetails.getItems().stream().map(tm -> new OrderDetail(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
 
-        var order = new Order(orderId, cusId, date);
-
-        List<OrderDetail> odList = new ArrayList<>();
-        for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
-            CartTm tm = cartList.get(i);
-
-            OrderDetail od = new OrderDetail(orderId, tm.getCode(), tm.getQty(), tm.getUnitPrice());
-            odList.add(od);
+        if (b) {
+            new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Order has not been placed successfully").show();
         }
 
-        Customer cu = new Customer(order, odList);
+        orderId = generateNewOrderId();
+        lblId.setText("Order Id: " + orderId);
+        cmbItemCode.getSelectionModel().clearSelection();
+        tblOrderDetails.getItems().clear();
+        txtQty.clear();
+        calculateTotal();
+    }
+
+    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetail> orderDetails) {
+
+        Connection connection = null;
         try {
-            boolean isPlaced = CustomerRepo.customer(cu);
-            if (isPlaced){
-                new Alert(Alert.AlertType.CONFIRMATION, "order placed!").show();
-            }else {
-                new Alert(Alert.AlertType.WARNING, "order not placed!").show();
+            connection = DbConnection.getInstance().getConnection();
+            PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
+            stm.setString(1, orderId);
+            /*if order id already exist*/
+            if (stm.executeQuery().next()) {
+
             }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.WARNING, "order not placed!").show();
+
+            connection.setAutoCommit(false);
+            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
+            stm.setString(1, orderId);
+            stm.setDate(2, Date.valueOf(orderDate));
+            stm.setString(3, customerId);
+
+            if (stm.executeUpdate() != 1) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, qty, unitPrice) VALUES (?,?,?,?)");
+
+            for (OrderDetail detail : orderDetails) {
+                stm.setString(1, orderId);
+                stm.setString(2, detail.getItemCode());
+                stm.setInt(3, detail.getQty());
+                stm.setBigDecimal(4, detail.getUnitPrice());
+
+                if (stm.executeUpdate() != 1) {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    return false;
+                }
+
+//                //Search & Update Item
+                Item item = findItem(detail.getItemCode());
+                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+
+                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
+                pstm.setString(1, item.getDescription());
+                pstm.setBigDecimal(2, item.getUnitPrice());
+                pstm.setInt(3, item.getQtyOnHand());
+                pstm.setString(4, item.getCode());
+
+                if (!(pstm.executeUpdate() > 0)) {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    return false;
+                }
+            }
+
+            connection.commit();
+            connection.setAutoCommit(true);
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public Item findItem(String code) {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code=?");
+            pstm.setString(1, code);
+            ResultSet rst = pstm.executeQuery();
+            rst.next();
+            return new Item(code, rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand"));
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to find the Item " + code, e);
         }
     }
 
-    @FXML
-    void txtQtyOnAction(ActionEvent event) {
-        btnAddCartOnAction(event);
-    }
-
-    @FXML
-    void txtQty_OnAction(ActionEvent event) {
-
-    }
 }
 
 
