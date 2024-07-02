@@ -306,7 +306,7 @@ public class CustomerFormController {
         return orderCount;
     }
 
-    private void setOrderCount(int orderCount) {
+    /*private void setOrderCount(int orderCount) {
         lblOrderCount.setText(String.valueOf(orderCount));
     }
 
@@ -323,9 +323,9 @@ public class CustomerFormController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    private void setCellValueFactory() {
+   /* private void setCellValueFactory() {
        // colNo.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(tblOrderCart.getItems().indexOf(cellData.getValue()) + 1));
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -334,7 +334,7 @@ public class CustomerFormController {
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
 
-    }
+    }*/
 
     private void lodeNextCustomerId() {
         try {
@@ -355,7 +355,7 @@ public class CustomerFormController {
         return "O1";
     }
 
-    private void lodeNextOrderId() {
+    /*private void lodeNextOrderId() {
         try {
             String currentOrderID = OrderRepo.currentOrderID();
             String nextOrderId = nextOrderId(currentOrderID);
@@ -363,7 +363,7 @@ public class CustomerFormController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     private String nextOrderId(String currentOrderID) {
         if (currentOrderID != null) {
@@ -419,13 +419,13 @@ public class CustomerFormController {
         enableOrDisablePlaceOrderButton();
     }
 
-    private void calculateNetTotal() {
+    /*private void calculateNetTotal() {
         fullAmmount = 0;
         for (int i = 0; i < tblOrderCart.getItems().size(); i++){
             fullAmmount += (double) colTotal.getCellData(i);
         }
         lblFullAmount.setText(String.valueOf(fullAmmount));
-    }
+    }*/
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
