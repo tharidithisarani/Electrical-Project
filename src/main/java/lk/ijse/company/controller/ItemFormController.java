@@ -87,10 +87,12 @@ public class ItemFormController {
         txtDescription.clear();
         txtUnitPrice.clear();
         txtQtyOnHand.clear();
+
         txtCode.setDisable(true);
         txtDescription.setDisable(true);
         txtUnitPrice.setDisable(true);
         txtQtyOnHand.setDisable(true);
+
         txtCode.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);

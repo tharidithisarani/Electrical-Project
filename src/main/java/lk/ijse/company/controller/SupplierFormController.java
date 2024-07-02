@@ -1,3 +1,4 @@
+/*
 package lk.ijse.company.controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -7,24 +8,31 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.company.database.DbConnection;
 import lk.ijse.company.model.Supplier;
-import lk.ijse.company.reposotory.SupplierRepo;
+import lk.ijse.company.model.tm.SupplierTm;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class SupplierFormController {
+    @FXML
+    private JFXButton btnAddNewCompany;
 
     @FXML
-    private JFXButton btnAdd1;
+    private JFXButton btnDelete;
 
     @FXML
-    private JFXButton btnAddItem;
+    private JFXButton btnSave;
 
     @FXML
-    private JFXButton btnClear1;
+    private JFXButton btnItem;
 
     @FXML
     private Label lblSupID;
@@ -33,88 +41,156 @@ public class SupplierFormController {
     private AnchorPane rootSupplier;
 
     @FXML
-    private JFXTextArea txtCompanyName;
+    private TableView<SupplierTm> tblCompany;
 
     @FXML
-    private JFXTextArea txtContaceNum;
+    private TextField txtCode;
 
     @FXML
-    private TextArea txtDescription;
+    private TextField txtContact;
 
     @FXML
-    private JFXTextArea txtEmail;
+    private TextField txtDescription;
 
     @FXML
-    private JFXTextArea txtItemCode;
+    private TextField txtEmail;
 
     @FXML
-    private JFXTextArea txtQTY;
+    private TextField txtName;
+
+    public void initialize(){
+        tblCompany.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
+        tblCompany.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblCompany.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("contact"));
+        tblCompany.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("email"));
+        tblCompany.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        initUI();
+
+        tblCompany.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnDelete.setDisable(newValue == null);
+            btnSave.setText(newValue != null ? "Update" : "Save");
+            btnSave.setDisable(newValue == null);
+
+            if (newValue != null) {
+                txtCode.setText(newValue.getCode());
+                txtName.setText(newValue.getCode());
+                txtContact.setText(newValue.getCode());
+                txtEmail.setText(newValue.getCode());
+                txtDescription.setText(newValue.getDescription());
+
+                txtCode.setDisable(false);
+                txtName.setDisable(false);
+                txtContact.setDisable(false);
+                txtEmail.setDisable(false);
+                txtDescription.setDisable(false);
+            }
+        });
+
+        txtDescription.setOnAction(event -> btnSave.fire());
+        loadAllItems();
+    }
+
+    private void initUI() {
+        txtCode.clear();
+        txtName.clear();
+        txtContact.clear();
+        txtEmail.clear();
+        txtDescription.clear();
+
+        txtCode.setDisable(true);
+        txtName.setDisable(true);
+        txtContact.setDisable(true);
+        txtEmail.setDisable(true);
+        txtDescription.setDisable(true);
+
+        txtCode.setEditable(false);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+    }
+
+    private void loadAllItems() {
+        tblCompany.getItems().clear();
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT * FROM Company");
+            while (rst.next()) {
+                tblCompany.getItems().add(new SupplierTm(rst.getString("code"), rst.getString("name"), rst.getString("contact"), rst.getString("email"), rst.getString("description")));
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
 
     @FXML
-    private JFXTextArea txtSupplierName;
-    private boolean valid;
-
-    @FXML
-    void btnAddItemOnAction(ActionEvent event) throws IOException {
+    void btnItemOnAction(ActionEvent event) throws IOException {
         AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/item.fxml"));
         Stage stage = (Stage) rootSupplier.getScene().getWindow();
         rootSupplier.getChildren().clear();
         rootSupplier.getChildren().add(rootNode);
         stage.setTitle("Item Form");
         stage.centerOnScreen();
-
     }
 
     @FXML
-    void btnAddOnAction(ActionEvent event) {
+    void btnAddNew_OnAction(ActionEvent event) {
+        txtCode.setDisable(false);
+        txtName.setDisable(false);
+        txtContact.setDisable(false);
+        txtEmail.setDisable(false);
+        txtDescription.setDisable(false);
 
-        String itemCode = txtItemCode.getText();
-        String CompanyName = txtCompanyName.getText();
-        String supplierName = txtSupplierName.getText();
-        String description = txtDescription.getText();
-        String email = txtEmail.getText();
-        String contact = txtContaceNum.getText();
-        String qty = txtQTY.getText();
+        txtCode.clear();
+        txtCode.setText(generateNewId());
+        txtName.clear();
+        txtContact.clear();
+        txtEmail.clear();
+        txtDescription.clear();
 
-        Supplier supplier = new Supplier( itemCode, CompanyName, supplierName, description, email, contact, qty);
+        txtName.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblCompany.getSelectionModel().clearSelection();
+    }
 
-        if (isValid()) {
-            try {
-
-                boolean isAdd = SupplierRepo.add(supplier);
-                if (isAdd) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "Supplier added!").show();
-                }
-
-            } catch (Exception e) {
-                new Alert(Alert.AlertType.ERROR, "something went wrong ").show();
+    private String generateNewId() {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Company ORDER BY code DESC LIMIT 1;");
+            if (rst.next()) {
+                String id = rst.getString("code");
+                int newItemId = Integer.parseInt(id.replace("C00-", "")) + 1;
+                return String.format("C00-%03d", newItemId);
+            } else {
+                return "C00-001";
             }
-            clearFields();
-
-
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-
-
-    }
-
-    private void clearFields() {
-        lblSupID.setText("");
-        txtItemCode.setText("");
-        txtCompanyName.setText("");
-        txtSupplierName.setText("");
-        txtDescription.setText("");
-        txtEmail.setText("");
-        txtContaceNum.setText("");
-        txtQTY.setText("");
-    }
-
-
-    @FXML
-    void btnClearOnAction(ActionEvent event) {
-        clearFields();
-    }
-
-    public boolean isValid() {
-        return valid;
+        return "C00-001";
     }
 }
+
+@FXML
+void btnDelete_OnAction(ActionEvent event) {
+    String code = tblCompany.getSelectionModel().getSelectedItem().getCode();
+    try {
+        if (!existCompany(code)) {
+            new Alert(Alert.AlertType.ERROR, "There is no such company associated with the id " + code).show();
+        }
+        Connection connection = DbConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Company WHERE code=?");
+        pstm.setString(1, code);
+        pstm.executeUpdate();
+
+        tblCompany.getItems().remove(tblCompany.getSelectionModel().getSelectedItem());
+        tblCompany.getSelectionModel().clearSelection();
+        initUI();
+    } catch (SQLException e) {
+        new Alert(Alert.AlertType.ERROR, "Failed to delete the company " + code).show();
+}}
+
+
+
+}*/

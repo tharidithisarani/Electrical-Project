@@ -1,9 +1,9 @@
-/*
 package lk.ijse.company.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import lk.ijse.company.database.DbConnection;
 import lk.ijse.company.model.*;
 import lk.ijse.company.model.tm.CartTm;
-import lk.ijse.company.reposotory.CustomerRepo;
+import lk.ijse.company.model.tm.OrderDetailTm;
 import lk.ijse.company.reposotory.OrderRepo;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -33,15 +33,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class CustomerFormController {
-
-    @FXML
-    private Button bill;
-
     @FXML
     private JFXButton btnAddCart;
-
-    @FXML
-    private JFXButton btnBack;
 
     @FXML
     private JFXButton btnConstructerOrder;
@@ -59,28 +52,7 @@ public class CustomerFormController {
     private JFXButton btnRegPermenentCustomer;
 
     @FXML
-    private JFXComboBox<String> cmbItemCode; // Updated to JFXComboBox<String>
-
-    @FXML
-    private TableColumn<?, ?> colAction;
-
-    @FXML
-    private TableColumn<?, ?> colItemName;
-
-    @FXML
-    private TableColumn<?, ?> colItemCode;
-
-//    @FXML
-//    private TableColumn<?, ?> colNo;
-
-    @FXML
-    private TableColumn<?, ?> colQTY;
-
-    @FXML
-    private TableColumn<?, ?> colTotal;
-
-    @FXML
-    private TableColumn<?, ?> colUnitPrice;
+    private JFXComboBox<?> cmbItemCode;
 
     @FXML
     private Label lblCusID;
@@ -89,19 +61,13 @@ public class CustomerFormController {
     private Label lblDate;
 
     @FXML
-    private Label lblFullAmount;
+    private Label lblItemCount;
 
     @FXML
-    private Label lblName;
+    private Label lblOrderCount;
 
     @FXML
-    private Label lblOrderId;
-
-    @FXML
-    private Label lblQOH;
-
-    @FXML
-    private Label lblUnitPrice;
+    private Label lblTotal;
 
     @FXML
     private Pane panedesc;
@@ -122,16 +88,19 @@ public class CustomerFormController {
     private AnchorPane rootOrdinaryBuyer;
 
     @FXML
-    private TableView<CartTm> tblOrderCart;
+    private TableView<?> tblOrderDetails;
 
     @FXML
-    private TextField txtQTY;
+    private TextField txtDescription;
 
     @FXML
-    private Label lblOrderCount;
+    private TextField txtQty;
 
     @FXML
-    private Label lblItemCount;
+    private TextField txtQtyOnHand;
+
+    @FXML
+    private TextField txtUnitPrice;
 
     private ObservableList<CartTm> cartList = FXCollections.observableArrayList();
 
@@ -140,27 +109,133 @@ public class CustomerFormController {
     private int orderCount;
 
     private int itemCount;
+    private String orderId;
+    private  String customerId;
+    private Label lblId;
 
     public void initialize() {
-        setCellValueFactory();
-        setDate();
-        lodeNextCustomerId();
-        lodeNextOrderId();
-        getItemCodes();
+        tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
+        tblOrderDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
+        tblOrderDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty"));
+        tblOrderDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        tblOrderDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
+        TableColumn<OrderDetailTm, Button> lastCol = (TableColumn<OrderDetailTm, Button>) tblOrderDetails.getColumns().get(5);
 
-        try {
-            itemCount = (int) getItemCount();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        setItemCount(itemCount);
+        lastCol.setCellValueFactory(param -> {
+            Button btnDelete = new Button("Delete");
 
+            btnDelete.setOnAction(event -> {
+                tblOrderDetails.getItems().remove(param.getValue());
+                tblOrderDetails.getSelectionModel().clearSelection();
+                calculateTotal();
+                enableOrDisablePlaceOrderButton();
+            });
+
+            return new ReadOnlyObjectWrapper<>(btnDelete);
+        });
+
+        orderId = generateNewOrderId();
+        lblId.setText("Order ID: " + orderId);
+        lblDate.setText(LocalDate.now().toString());
+        btnPlaceOrder.setDisable(true);
+        txtDescription.setFocusTraversable(false);
+        txtDescription.setEditable(false);
+        txtUnitPrice.setFocusTraversable(false);
+        txtUnitPrice.setEditable(false);
+        txtQtyOnHand.setFocusTraversable(false);
+        txtQtyOnHand.setEditable(false);
+        txtQty.setOnAction(event -> btnAddCart.fire());
+        txtQty.setEditable(false);
+        btnAddCart.setDisable(true);
+
+        cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newItemCode) -> {
+            txtQty.setEditable(newItemCode != null);
+            btnAddCart.setDisable(newItemCode == null);
+
+            if (newItemCode != null) {
+
+                try {
+                    if (!existItem(newItemCode + "")) {
+//                        throw new NotFoundException("There is no such item associated with the id " + code);
+                    }
+                    Connection connection = DbConnection.getInstance().getConnection();
+                    PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code=?");
+                    pstm.setString(1, newItemCode + "");
+                    ResultSet rst = pstm.executeQuery();
+                    rst.next();
+                    Item item = new Item(newItemCode + "", rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand"));
+
+                    txtDescription.setText(item.getDescription());
+                    txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
+
+                    Optional<OrderDetailTm> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
+                    txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnHand() - optOrderDetail.get().getQty() : item.getQtyOnHand()) + "");
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                txtDescription.clear();
+                txtQty.clear();
+                txtQtyOnHand.clear();
+                txtUnitPrice.clear();
+            }
+        });
+
+        tblOrderDetails.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrderDetail) -> {
+
+            if (selectedOrderDetail != null) {
+                cmbItemCode.setDisable(true);
+                cmbItemCode.setValue(selectedOrderDetail.getCode());
+                btnAddCart.setText("Update");
+                txtQtyOnHand.setText(Integer.parseInt(txtQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
+                txtQty.setText(selectedOrderDetail.getQty() + "");
+            } else {
+                btnAddCart.setText("Add");
+                cmbItemCode.setDisable(false);
+                cmbItemCode.getSelectionModel().clearSelection();
+                txtQty.clear();
+            }
+
+        });
+
+        loadAllCustomerIds();
+        loadAllItemCodes();
+    }
+
+    private void loadAllItemCodes() {
+    }
+
+    private void loadAllCustomerIds() {
+    }
+
+    private String generateNewOrderId() {
         try {
-            orderCount = getOrderCount();
+            Connection connection = DbConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
+
+            return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
         }
-        setOrderCount(orderCount);
+        return "OID-001";
+    }
+
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
+        pstm.setString(1, code);
+        return pstm.executeQuery().next();
+    }
+
+    private void enableOrDisablePlaceOrderButton() {
+    }
+
+    private void calculateTotal() {
     }
 
     private Object getItemCount() throws SQLException {
@@ -440,8 +515,12 @@ public class CustomerFormController {
     void txtQtyOnAction(ActionEvent event) {
         btnAddCartOnAction(event);
     }
+
+    @FXML
+    void txtQty_OnAction(ActionEvent event) {
+
+    }
 }
 
 
 
-*/

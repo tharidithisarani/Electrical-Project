@@ -220,3 +220,33 @@ CREATE TABLE `Item` (
                         `unitPrice` decimal(10,2) DEFAULT NULL,
                         PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;`
+
+DROP TABLE IF EXISTS `Company`;
+CREATE TABLE `Company` (
+                            `code` varchar(30) NOT NULL,
+                            `name` varchar(255) DEFAULT NULL,
+                            `contact` varchar(10) NOT NULL,
+                            `email` varchar(255) NOT NULL,
+                            `description` varchar(255) NOT NULL,
+                            PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE `Orders` (
+                          `oid` varchar(255) NOT NULL,
+                          `date` date DEFAULT NULL,
+                          `customerID` varchar(255) DEFAULT NULL,
+                          PRIMARY KEY (`oid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `OrderDetails`;
+CREATE TABLE `OrderDetails` (
+                                `oid` varchar(255) NOT NULL,
+                                `itemCode` varchar(255) NOT NULL,
+                                `qty` int(10) DEFAULT NULL,
+                                `unitPrice` decimal(10,2) DEFAULT NULL,
+                                PRIMARY KEY (`oid`,`itemCode`),
+                                KEY `itemCode` (`itemCode`),
+                                CONSTRAINT `OrderDetails_ibfk_1` FOREIGN KEY (`oid`) REFERENCES `Orders` (`oid`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `OrderDetails_ibfk_2` FOREIGN KEY (`itemCode`) REFERENCES `Item` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

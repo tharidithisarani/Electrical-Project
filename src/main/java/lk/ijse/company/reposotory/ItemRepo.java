@@ -1,4 +1,3 @@
-/*
 package lk.ijse.company.reposotory;
 
 import lk.ijse.company.database.DbConnection;
@@ -32,8 +31,6 @@ public class ItemRepo {
             return false;
         }
     }
-*/
-/*
     public static boolean update(Item item) throws SQLException {
         String sql = "UPDATE item SET name = ?, status = ?, unitPrice = ?, QTY = ?, user_ID = ? WHERE code = ?";
 
@@ -50,7 +47,7 @@ public class ItemRepo {
     return affectedRows > 0;
     }
 
- *//*
+
 
 public static boolean update(Item item) throws SQLException {
     // SQL query to update the item details in the database
@@ -175,4 +172,3 @@ public static boolean update(Item item) throws SQLException {
         return null;
     }
 }
-*/
