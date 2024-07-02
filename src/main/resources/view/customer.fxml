@@ -97,7 +97,7 @@
                         <Line endX="1385.0" layoutX="84.0" layoutY="214.0" startX="-65.5" strokeWidth="3.0" />
                         <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="189.0" layoutY="93.0" prefHeight="28.0" prefWidth="161.0" promptText="Item Code :" />
                         <TextField fx:id="txtDescription" layoutX="472.0" layoutY="102.0" prefHeight="28.0" prefWidth="437.0" promptText="Item Description :" />
-                        <TextField fx:id="txtQty" layoutX="867.0" layoutY="159.0" onAction="#txtQty_OnAction" prefHeight="35.0" prefWidth="121.0" promptText="Qty." />
+                        <TextField fx:id="txtQty" layoutX="867.0" layoutY="159.0" prefHeight="35.0" prefWidth="121.0" promptText="Qty." />
                         <TextField fx:id="txtUnitPrice" layoutX="447.0" layoutY="154.0" prefHeight="35.0" prefWidth="256.0" promptText="Unit Price" />
                      </children>
                   </Pane>

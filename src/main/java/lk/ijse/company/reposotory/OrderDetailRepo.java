@@ -1,3 +1,4 @@
+/*
 package lk.ijse.company.reposotory;
 
 import lk.ijse.company.database.DbConnection;
@@ -29,3 +30,4 @@ public class OrderDetailRepo {
         return pstm.executeUpdate() > 0;
     }
 }
+*/

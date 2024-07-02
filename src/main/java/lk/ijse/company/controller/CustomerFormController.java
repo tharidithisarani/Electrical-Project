@@ -2,14 +2,12 @@ package lk.ijse.company.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,26 +30,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -528,7 +507,7 @@ public class CustomerFormController {
         calculateTotal();
     }
 
-    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetail> orderDetails) {
+    public boolean saveOrder(String orderId, LocalDate orderDate, List<OrderDetail> orderDetails) {
 
         Connection connection = null;
         try {
@@ -558,7 +537,7 @@ public class CustomerFormController {
                 stm.setString(1, orderId);
                 stm.setString(2, detail.getItemCode());
                 stm.setInt(3, detail.getQty());
-                stm.setBigDecimal(4, detail.getUnitPrice());
+                stm.setBigDecimal(4, BigDecimal.valueOf(detail.getUnitPrice()));
 
                 if (stm.executeUpdate() != 1) {
                     connection.rollback();

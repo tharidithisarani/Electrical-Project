@@ -1,18 +1,26 @@
 package lk.ijse.company.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 
 public class OrderDetail implements Serializable {
     private String itemCode;
     private int qty;
     private double unitPrice;
 
-    public OrderDetail() {
+    public OrderDetail(String code, int qty, BigDecimal unitPrice) {
+    }
+    
+
+    /*public OrderDetail() {
     }
 
     public OrderDetail(String itemCode, int qty, double unitPrice) {
@@ -52,5 +60,5 @@ public class OrderDetail implements Serializable {
                 ", qty=" + qty +
                 ", unitPrice=" + unitPrice +
                 '}';
-    }
+    }*/
 }

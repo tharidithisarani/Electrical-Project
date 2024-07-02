@@ -1,3 +1,4 @@
+/*
 package lk.ijse.company.reposotory;
 
 import lk.ijse.company.database.DbConnection;
@@ -172,3 +173,4 @@ public static boolean update(Item item) throws SQLException {
         return null;
     }
 }
+*/

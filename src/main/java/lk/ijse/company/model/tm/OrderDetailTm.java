@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/*@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
-@Data*/
+@Data
 
 public class OrderDetailTm {
     private String code;
@@ -18,7 +18,7 @@ public class OrderDetailTm {
     private BigDecimal unitPrice;
     private BigDecimal total;
 
-    public OrderDetailTm() {
+    /*public OrderDetailTm() {
     }
 
     public OrderDetailTm(String code, String description, int qty, BigDecimal unitPrice, BigDecimal total) {
@@ -78,5 +78,5 @@ public class OrderDetailTm {
                 ", unitPrice=" + unitPrice +
                 ", total=" + total +
                 '}';
-    }
+    }*/
 }
