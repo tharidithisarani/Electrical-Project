@@ -113,7 +113,7 @@ public class DashboardFormController {
         Stage stage = (Stage) rootDashboard.getScene().getWindow();
         rootDashboard.getChildren().clear();
         rootDashboard.getChildren().add(rootNode);
-        stage.setTitle("Customer Form");
+        stage.setTitle("Item Form");
         stage.centerOnScreen();
 
     }

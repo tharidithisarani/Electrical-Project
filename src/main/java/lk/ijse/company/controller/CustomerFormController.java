@@ -107,13 +107,9 @@ public class CustomerFormController {
 
     private ObservableList<CartTm> cartList = FXCollections.observableArrayList();
 
-    private double fullAmmount = 0;
-
-    private int orderCount;
-
-    private int itemCount;
     private String orderId;
-    private  String customerId;
+
+    @FXML
     private Label lblId;
 
     public void initialize() {
@@ -243,7 +239,7 @@ public class CustomerFormController {
     }
 
     private void enableOrDisablePlaceOrderButton() {
-        btnPlaceOrder.setDisable(!(cmbItemCode.getSelectionModel().getSelectedItem() != null && !tblOrderDetails.getItems().isEmpty()));
+        btnPlaceOrder.setDisable(!(cmbItemCode.getSelectionModel().getSelectedItem() != null || !tblOrderDetails.getItems().isEmpty()));
     }
 
     private void calculateTotal() {
@@ -523,7 +519,7 @@ public class CustomerFormController {
             stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
             stm.setString(1, orderId);
             stm.setDate(2, Date.valueOf(orderDate));
-            stm.setString(3, customerId);
+//            stm.setString(3, customerId);
 
             if (stm.executeUpdate() != 1) {
                 connection.rollback();
@@ -584,6 +580,9 @@ public class CustomerFormController {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         }
+    }
+
+    public void txtQty_OnAction(ActionEvent actionEvent) {
     }
 
 }

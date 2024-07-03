@@ -52,26 +52,6 @@
                <children>
                   <Pane fx:id="paneorder" opacity="0.91" prefHeight="220.0" prefWidth="1500.0" style="-fx-background-color: #808B96;">
                      <children>
-                        <Label layoutX="397.0" layoutY="41.0" text="Order ID : ">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="985.0" layoutY="36.0" text="Date : ">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblOrderId" layoutX="498.0" layoutY="41.0" text=" ">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblDate" layoutX="1053.0" layoutY="34.0" text=" ">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
                         <Label layoutX="84.0" layoutY="98.0" text="Item Code : ">
                            <font>
                               <Font name="System Bold" size="18.0" />
@@ -97,8 +77,18 @@
                         <Line endX="1385.0" layoutX="84.0" layoutY="214.0" startX="-65.5" strokeWidth="3.0" />
                         <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="189.0" layoutY="93.0" prefHeight="28.0" prefWidth="161.0" promptText="Item Code :" />
                         <TextField fx:id="txtDescription" layoutX="472.0" layoutY="102.0" prefHeight="28.0" prefWidth="437.0" promptText="Item Description :" />
-                        <TextField fx:id="txtQty" layoutX="867.0" layoutY="159.0" prefHeight="35.0" prefWidth="121.0" promptText="Qty." />
+                        <TextField fx:id="txtQty" layoutX="867.0" layoutY="159.0" onAction="#txtQty_OnAction" prefHeight="35.0" prefWidth="121.0" promptText="Qty." />
                         <TextField fx:id="txtUnitPrice" layoutX="447.0" layoutY="154.0" prefHeight="35.0" prefWidth="256.0" promptText="Unit Price" />
+                        <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="679.0" layoutY="32.0" prefHeight="24.0" prefWidth="152.0" text="ORDER ID : OD001">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblDate" alignment="CENTER_RIGHT" layoutX="1015.0" layoutY="29.0" prefHeight="24.0" prefWidth="152.0" text="2021-10-11">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                   <Pane fx:id="panedesc" layoutY="220.0" prefHeight="400.0" prefWidth="1500.0" style="-fx-background-color: #808B96;">
