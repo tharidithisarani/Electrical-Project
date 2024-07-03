@@ -49,6 +49,9 @@ public class CustomerFormController {
     private JFXButton btnPermenentBuyer;
 
     @FXML
+    private Button btnimage;
+
+    @FXML
     private JFXButton btnPlaceOrder;
 
     @FXML
@@ -583,6 +586,11 @@ public class CustomerFormController {
     }
 
     public void txtQty_OnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    void btnImage_OnAction(ActionEvent event) {
+        new Alert(Alert.AlertType.ERROR, "The form desn't available, Click the correct Button").show();
     }
 
 }
