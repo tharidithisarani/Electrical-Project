@@ -225,6 +225,7 @@ public class ItemFormController {
                 pstm.executeUpdate();
 
                 ItemTm selectedItem = tblItems.getSelectionModel().getSelectedItem();
+
                 selectedItem.setDescription(description);
                 selectedItem.setQtyOnHand(qtyOnHand);
                 selectedItem.setUnitPrice(unitPrice);

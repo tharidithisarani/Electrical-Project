@@ -16,5 +16,5 @@ public class Order {
     private String orderId;
     private String customerId;
     private LocalDate orderDate;
-    private BigDecimal orderTotal;
+    private double orderTotal;
 }

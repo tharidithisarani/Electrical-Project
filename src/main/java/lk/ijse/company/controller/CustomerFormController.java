@@ -284,35 +284,6 @@ public class CustomerFormController {
         return orderCount;
     }
 
-    /*private void setOrderCount(int orderCount) {
-        lblOrderCount.setText(String.valueOf(orderCount));
-    }
-
-    private void setItemCount(int orderCount) {
-        lblItemCount.setText(String.valueOf(orderCount));
-    }
-
-    private void getItemCodes() {
-        ObservableList<String> observableList = FXCollections.observableArrayList();
-        try {
-            List<String> codeList = ItemRepo.getCodes();
-            observableList.addAll(codeList);
-            cmbItemCode.setItems(observableList);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
-   /* private void setCellValueFactory() {
-       // colNo.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(tblOrderCart.getItems().indexOf(cellData.getValue()) + 1));
-        colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
-        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        colQTY.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
-        colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
-
-    }*/
 
     private void lodeNextCustomerId() {
         try {
@@ -333,15 +304,6 @@ public class CustomerFormController {
         return "O1";
     }
 
-    /*private void lodeNextOrderId() {
-        try {
-            String currentOrderID = OrderRepo.currentOrderID();
-            String nextOrderId = nextOrderId(currentOrderID);
-            lblOrderId.setText(nextOrderId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     private String nextOrderId(String currentOrderID) {
         if (currentOrderID != null) {
@@ -397,13 +359,6 @@ public class CustomerFormController {
         enableOrDisablePlaceOrderButton();
     }
 
-    /*private void calculateNetTotal() {
-        fullAmmount = 0;
-        for (int i = 0; i < tblOrderCart.getItems().size(); i++){
-            fullAmmount += (double) colTotal.getCellData(i);
-        }
-        lblFullAmount.setText(String.valueOf(fullAmmount));
-    }*/
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -469,23 +424,6 @@ public class CustomerFormController {
 
     }
 
-    /*@FXML
-    void cmbItemOnAction(ActionEvent event) throws IOException {
-        String code = (String) cmbItemCode.getValue();
-        try {
-            Item item = ItemRepo.searchByCode(code);
-            if (item != null) {
-                lblName.setText(item.getName());
-                lblUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-                lblQOH.setText(String.valueOf(item.getQTY()));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        txtQTY.requestFocus();
-
-    }*/
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
@@ -519,10 +457,9 @@ public class CustomerFormController {
             }
 
             connection.setAutoCommit(false);
-            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
+            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date) VALUES (?,?)");
             stm.setString(1, orderId);
             stm.setDate(2, Date.valueOf(orderDate));
-//            stm.setString(3, customerId);
 
             if (stm.executeUpdate() != 1) {
                 connection.rollback();
@@ -536,7 +473,7 @@ public class CustomerFormController {
                 stm.setString(1, orderId);
                 stm.setString(2, detail.getItemCode());
                 stm.setInt(3, detail.getQty());
-                stm.setBigDecimal(4, BigDecimal.valueOf(detail.getUnitPrice()));
+                stm.setBigDecimal(4, detail.getUnitPrice());
 
                 if (stm.executeUpdate() != 1) {
                     connection.rollback();
