@@ -5,12 +5,11 @@ import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,58 +17,25 @@ import java.io.IOException;
 public class TechnisiyanFormController {
 
     @FXML
-    private JFXButton btnAdd;
+    private JFXButton btnNo;
+
+    @FXML
+    private JFXButton btnSalary;
 
     @FXML
     private JFXButton btnTechDetail;
 
     @FXML
-    private JFXComboBox<?> cmbAttend;
+    private JFXButton btnYes;
 
     @FXML
-    private JFXComboBox<?> cmbName;
+    private JFXComboBox<?> cmbTechName;
 
     @FXML
     private TableColumn<?, ?> colAction;
 
     @FXML
-    private TableColumn<?, ?> colAttendNo;
-
-    @FXML
-    private TableColumn<?, ?> colAttendense;
-
-    @FXML
-    private TableColumn<?, ?> colContace;
-
-    @FXML
-    private TableColumn<?, ?> colContact;
-
-    @FXML
-    private TableColumn<?, ?> colNIC;
-
-    @FXML
-    private TableColumn<?, ?> colName;
-
-    @FXML
-    private TableColumn<?, ?> colNo;
-
-    @FXML
-    private TableColumn<?, ?> colTechID;
-
-    @FXML
-    private TableColumn<?, ?> colToolCode;
-
-    @FXML
-    private TableColumn<?, ?> conTechID;
-
-    @FXML
-    private TableColumn<?, ?> conname;
-
-    @FXML
-    private Label lblTechID;
-
-    @FXML
-    private Pane paneSummary;
+    private Label lblId;
 
     @FXML
     private AnchorPane rootTechDashBoard;
@@ -78,26 +44,36 @@ public class TechnisiyanFormController {
     private AnchorPane rootTechnisiyan;
 
     @FXML
-    private TableView<?> tblAttendanseOK;
+    private TableView<?> tblAttend;
 
     @FXML
-    private TableView<?> tblSummary;
+    private TextField txtContact;
 
     @FXML
-    void btnAddOnAction(ActionEvent event) {
+    private TextField txtTechCode;
+
+    @FXML
+    void btnNo_OnAction(ActionEvent event) {
 
     }
 
+    @FXML
+    void btnSalary_OnAction(ActionEvent event) {
 
+    }
 
     @FXML
-    void btnTechDetailOnAction(ActionEvent event) throws IOException {
+    void btnTechDetail_OnAction(ActionEvent event) throws IOException {
         AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/tech_details.fxml"));
         Stage stage = (Stage) rootTechDashBoard.getScene().getWindow();
         rootTechDashBoard.getChildren().clear();
         rootTechDashBoard.getChildren().add(rootNode);
         stage.setTitle("Customer Form");
         stage.centerOnScreen();
+    }
+
+    @FXML
+    void btnYes_OnAction(ActionEvent event) {
 
     }
 

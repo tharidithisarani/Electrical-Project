@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +17,12 @@
    <children>
       <Pane prefHeight="125.0" prefWidth="1500.0" style="-fx-background-color: #5D6D7E;">
          <children>
-            <JFXButton fx:id="btnTechDetail" layoutX="1163.0" layoutY="27.0" onAction="#btnTechDetailOnAction" prefHeight="69.0" prefWidth="234.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="More Details" textFill="#f4d03f">
+            <JFXButton fx:id="btnTechDetail" layoutX="1087.0" layoutY="27.0" onAction="#btnTechDetail_OnAction" prefHeight="69.0" prefWidth="310.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="Technisiyan Details" textFill="#f4d03f">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnSalary" layoutX="698.0" layoutY="30.0" onAction="#btnSalary_OnAction" opacity="0.0" prefHeight="69.0" prefWidth="310.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="Salary" textFill="#f4d03f">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -30,39 +36,33 @@
                   <Image url="@../asserts.icon/electrical_work_templates_ppt_340148.jpg" />
                </image>
             </ImageView>
-            <Label layoutX="714.0" layoutY="40.0" text="Attend : ">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <JFXComboBox fx:id="cmbAttend" layoutX="801.0" layoutY="36.0" prefHeight="31.0" prefWidth="166.0" />
-            <Label layoutX="83.0" layoutY="27.0" text="Name : ">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <JFXComboBox fx:id="cmbName" layoutX="158.0" layoutY="23.0" prefHeight="31.0" prefWidth="450.0" />
-            <Label layoutX="1125.0" layoutY="35.0" text="Technisiyan ID : ">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTechID" layoutX="1274.0" layoutY="37.0" text=" ">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <TableView fx:id="tblAttendanseOK" layoutX="585.0" layoutY="209.0" prefHeight="252.0" prefWidth="867.0">
+            <TableView fx:id="tblAttend" layoutX="585.0" layoutY="209.0" prefHeight="252.0" prefWidth="867.0">
                <columns>
-                  <TableColumn fx:id="colAttendNo" prefWidth="75.0" text="No" />
-                  <TableColumn fx:id="conTechID" prefWidth="100.33334350585938" text="Tech-ID" />
-                  <TableColumn fx:id="conname" prefWidth="252.33334350585938" text="Name" />
-                  <TableColumn fx:id="colContace" prefWidth="203.0" text="Concate No" />
-                  <TableColumn fx:id="colAttendense" prefWidth="116.33331298828125" text="Attend" />
+                  <TableColumn prefWidth="75.0" text="No" />
+                  <TableColumn prefWidth="100.33334350585938" text="Code" />
+                  <TableColumn prefWidth="252.33334350585938" text="Name" />
+                  <TableColumn prefWidth="203.0" text="Concate" />
+                  <TableColumn prefWidth="116.33331298828125" text="Attend" />
                   <TableColumn fx:id="colAction" prefWidth="117.0" />
                </columns>
             </TableView>
-            <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="1325.0" layoutY="137.0" onAction="#btnAddOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
+            <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="806.0" layoutY="144.0" prefHeight="26.0" prefWidth="161.0" text="ATTEND NO : AT001">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="570.0" layoutY="50.0" text="Attend : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="164.0" layoutY="39.0" text="Name : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cmbTechName" labelFloat="true" layoutX="269.0" layoutY="34.0" prefHeight="28.0" prefWidth="161.0" promptText="Name" />
+            <JFXButton fx:id="btnNo" buttonType="RAISED" layoutX="878.0" layoutY="71.0" onAction="#btnNo_OnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="NO" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -70,25 +70,16 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <Pane fx:id="paneSummary" layoutY="471.0" prefHeight="444.0" prefWidth="1500.0">
-               <children>
-                  <Label layoutX="809.0" layoutY="21.0" text="Technisiyan Summary ......">
-                     <font>
-                        <Font name="System Bold Italic" size="24.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="tblSummary" layoutX="346.0" layoutY="83.0" prefHeight="339.0" prefWidth="1102.0">
-                     <columns>
-                        <TableColumn fx:id="colNo" prefWidth="75.0" text="No" />
-                        <TableColumn fx:id="colTechID" prefWidth="176.66668701171875" text="Tech_ID" />
-                        <TableColumn fx:id="colNIC" prefWidth="225.33331298828125" text="NIC" />
-                        <TableColumn fx:id="colName" prefWidth="267.6666564941406" text="Name" />
-                        <TableColumn fx:id="colToolCode" minWidth="0.0" prefWidth="147.0" text="Tool_Code" />
-                        <TableColumn fx:id="colContact" prefWidth="203.66668701171875" text="Contact" />
-                     </columns>
-                  </TableView>
-               </children>
-            </Pane>
+            <JFXButton fx:id="btnYes" buttonType="RAISED" layoutX="704.0" layoutY="73.0" onAction="#btnYes_OnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="YES" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <TextField fx:id="txtTechCode" layoutX="1032.0" layoutY="37.0" prefHeight="28.0" prefWidth="280.0" promptText="Technisiyan Code" />
+            <TextField fx:id="txtContact" layoutX="1082.0" layoutY="97.0" prefHeight="28.0" prefWidth="262.0" promptText="Contact" />
          </children>
       </AnchorPane>
    </children>
