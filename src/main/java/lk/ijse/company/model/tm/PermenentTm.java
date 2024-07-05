@@ -1,17 +1,17 @@
-package lk.ijse.company.model;
+package lk.ijse.company.model.tm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 
-public class Machine implements Serializable {
+public class PermenentTm {
     private String code;
+    private String name;
+    private String address;
+    private String contact;
     private String description;
-    private String status;
 }

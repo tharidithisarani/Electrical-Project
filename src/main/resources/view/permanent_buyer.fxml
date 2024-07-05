@@ -1,118 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPermanentBuyerLode" maxHeight="350.0" prefHeight="300.0" prefWidth="1500.0" style="-fx-background-color: #D0D3D4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.PermenentBuyerFormController">
+<AnchorPane fx:id="rootPermenent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="930.0" prefWidth="1500.0" style="-fx-background-color: #D0D3D4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.company.controller.PermenentBuyerFormController">
    <children>
-      <ImageView fitHeight="160.0" fitWidth="621.0" layoutX="685.0">
-         <image>
-            <Image url="@../asserts.icon/Screenshot_2024-05-28_183726-removebg-preview.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="255.0" layoutY="20.0" prefHeight="42.0" prefWidth="330.0" text="Permanent Buyer Form" textFill="#5e5c5c">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Label>
-      <Label layoutX="34.0" layoutY="95.0" text="Register ID : ">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblRegID" layoutX="126.0" layoutY="90.0" text=" " textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="467.0" layoutY="95.0" text="Date:">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblDate" layoutX="511.0" layoutY="92.0" text=" " textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="1297.0" layoutY="236.0" onAction="#btnAddOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <Label layoutX="227.0" layoutY="94.0" text="Customer Id:">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCusID" layoutX="337.0" layoutY="92.0" text=" " textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblTime1" layoutX="674.0" layoutY="94.0" textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Line endX="244.5999755859375" layoutX="359.0" layoutY="62.0" startX="-135.4000244140625" />
-      <Label layoutX="31.0" layoutY="134.0" text="Name : ">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <JFXTextArea fx:id="txtName" layoutX="91.0" layoutY="122.0" prefHeight="35.0" prefWidth="352.0" />
-      <Label layoutX="537.0" layoutY="139.0" text="Address : ">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <JFXTextArea fx:id="txtAddress" layoutX="604.0" layoutY="127.0" prefHeight="35.0" prefWidth="352.0" />
-      <Label layoutX="997.0" layoutY="141.0" text="Contact Num : ">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <JFXTextArea fx:id="txtContact" layoutX="1106.0" layoutY="129.0" prefHeight="36.0" prefWidth="303.0" />
-      <Label layoutX="35.0" layoutY="184.0" text="Status : ">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <JFXTextArea fx:id="txtStatus" layoutX="96.0" layoutY="172.0" prefHeight="35.0" prefWidth="352.0" />
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="1128.0" layoutY="235.0" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Update" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="979.0" layoutY="234.0" onAction="#btnDeleteOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Delete" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnClear" buttonType="RAISED" layoutX="798.0" layoutY="236.0" onAction="#btnClearOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Clear" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
+      <Pane fx:id="paneBack" layoutY="388.0" prefHeight="542.0" prefWidth="1500.0">
+         <children>
+            <TableView fx:id="tblCustomer" layoutX="132.0" layoutY="58.0" prefHeight="361.0" prefWidth="1125.0">
+              <columns>
+                <TableColumn prefWidth="165.3333282470703" text="RegisterID" />
+                <TableColumn minWidth="0.3333282470703125" prefWidth="182.6666717529297" text="Name" />
+                  <TableColumn prefWidth="233.33334350585938" text="Address" />
+                  <TableColumn prefWidth="196.66668701171875" text="Contact" />
+                  <TableColumn prefWidth="347.33331298828125" text="Description" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="rootPermanentBuyerLode" maxHeight="369.0" prefHeight="369.0" prefWidth="1500.0" style="-fx-background-color: #D0D3D4;">
+         <children>
+            <ImageView fitHeight="160.0" fitWidth="621.0" layoutX="661.0" layoutY="23.0">
+               <image>
+                  <Image url="@../asserts.icon/Screenshot_2024-05-28_183726-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="255.0" layoutY="20.0" prefHeight="42.0" prefWidth="330.0" text="Permanent Buyer Form" textFill="#5e5c5c">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="btnAddNewCustomer" buttonType="RAISED" layoutX="1149.0" layoutY="137.0" onAction="#btnAddNew_OnAction" prefHeight="39.0" prefWidth="170.0" style="-fx-background-color: #3498db;" text="+ New Customer" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="lblTime1" layoutX="674.0" layoutY="94.0" textFill="#278d7f">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Line endX="244.5999755859375" layoutX="359.0" layoutY="62.0" startX="-135.4000244140625" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="1196.0" layoutY="189.0" onAction="#btnSave_OnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Save" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="1196.0" layoutY="242.0" onAction="#btnDelete_OnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Delete" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="lblDate" alignment="CENTER_RIGHT" layoutX="1230.0" layoutY="41.0" opacity="0.0" prefHeight="63.0" prefWidth="152.0" text="2021-10-11">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtName" layoutX="135.0" layoutY="165.0" prefHeight="0.0" prefWidth="606.0" promptText="Name" />
+            <TextField fx:id="txtDescription" layoutX="135.0" layoutY="279.0" prefHeight="0.0" prefWidth="606.0" promptText="Description" />
+            <TextField fx:id="txtAddress" layoutX="135.0" layoutY="205.0" prefHeight="0.0" prefWidth="606.0" promptText="Address" />
+            <TextField fx:id="txtContact" layoutX="135.0" layoutY="240.0" prefHeight="0.0" prefWidth="606.0" promptText="Contact Number" />
+            <TextField fx:id="txtRegCode" layoutX="51.0" layoutY="112.0" prefHeight="0.0" prefWidth="275.0" promptText="Regestration Code" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

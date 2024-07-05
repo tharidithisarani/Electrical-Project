@@ -275,3 +275,22 @@ CREATE TABLE `Technisiyan` (
                                 KEY `techCode` (`techCode`),
                                 CONSTRAINT `Technisiyan_ibfk_1` FOREIGN KEY (`techCode`) REFERENCES `techDetail` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `Machine`;
+CREATE TABLE `Machine` (
+                           `code` varchar(30) NOT NULL,
+                           `description` varchar(255) NOT NULL,
+                           `status` varchar(255) NOT NULL,
+                           PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `permenentCus`;
+CREATE TABLE `permenentCus` (
+                           `code` varchar(30) NOT NULL,
+                           `name` varchar(255) NOT NULL,
+                           `address` varchar(255) NOT NULL,
+                           `contact` int(10) NOT NULL,
+                           `description` varchar(255) NOT NULL,
+                           PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

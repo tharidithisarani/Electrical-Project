@@ -386,13 +386,13 @@ public class CustomerFormController {
 
     @FXML
     void btnConstructerOrderOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/permanent_buyer.fxml"));
-        this.rootLode.getChildren().clear();
-        this.rootLode.getChildren().add(anchorPane);
+//        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/permanent_buyer.fxml"));
+//        this.rootLode.getChildren().clear();
+//        this.rootLode.getChildren().add(anchorPane);
 
         AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/constructer_order.fxml"));
         Stage stage = (Stage) rootCusDetail.getScene().getWindow();
-        rootCusDetail.getChildren().clear();
+//        rootCusDetail.getChildren().clear();
         rootCusDetail.getChildren().add(rootNode);
         stage.setTitle("Constructer Order Form");
         stage.centerOnScreen();

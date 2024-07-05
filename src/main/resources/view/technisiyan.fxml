@@ -30,35 +30,41 @@
       </Pane>
       <AnchorPane fx:id="rootTechDashBoard" layoutY="125.0" prefHeight="925.0" prefWidth="1500.0">
          <children>
-            <ImageView fitHeight="920.0" fitWidth="1500.0">
+            <ImageView fitHeight="920.0" fitWidth="1500.0" opacity="0.53">
                <image>
-                  <Image url="@../asserts.icon/electrical_work_templates_ppt_340148.jpg" />
+                  <Image url="@../asserts.icon/back%20image.png" />
                </image>
             </ImageView>
-            <TableView fx:id="tblAttend" layoutX="585.0" layoutY="209.0" prefHeight="252.0" prefWidth="867.0">
+            <TableView fx:id="tblAttend" layoutX="613.0" layoutY="535.0" prefHeight="252.0" prefWidth="828.0">
                <columns>
                   <TableColumn prefWidth="75.0" text="No" />
-                  <TableColumn prefWidth="100.33334350585938" text="Code" />
-                  <TableColumn prefWidth="252.33334350585938" text="Name" />
-                  <TableColumn prefWidth="203.0" text="Concate" />
-                  <TableColumn fx:id="colAction" prefWidth="117.0" />
-                  <TableColumn prefWidth="75.0" text="Delete" />
+                  <TableColumn prefWidth="137.0" text="Code" />
+                  <TableColumn prefWidth="232.0" text="Name" />
+                  <TableColumn prefWidth="188.3333740234375" text="Concate" />
+                  <TableColumn fx:id="colAction" prefWidth="87.6666259765625" />
+                  <TableColumn prefWidth="104.3333740234375" text="Delete" />
                </columns>
             </TableView>
-            <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="806.0" layoutY="144.0" prefHeight="26.0" prefWidth="161.0" text="ATTEND NO : AT001">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="134.0" layoutY="39.0" prefHeight="27.0" prefWidth="121.0" text="Tech_Code">
+            <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="800.0" layoutY="131.0" prefHeight="33.0" prefWidth="210.0" text="ATTEND NO : AT001">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmbTechCode" labelFloat="true" layoutX="269.0" layoutY="34.0" prefHeight="28.0" prefWidth="161.0" promptText="Code" />
-            <TextField fx:id="txtName" layoutX="1032.0" layoutY="37.0" prefHeight="28.0" prefWidth="280.0" promptText="Technisiyan Name" />
-            <TextField fx:id="txtContact" layoutX="1082.0" layoutY="97.0" prefHeight="28.0" prefWidth="262.0" promptText="Contact" />
-            <JFXButton fx:id="btnAdd" contentDisplay="RIGHT" layoutX="1025.0" layoutY="728.0" onAction="#btnAdd_OnAction" prefHeight="25.0" prefWidth="284.0" style="-fx-background-color: #34495e; -fx-background-radius: 50;" text="+ Add" textAlignment="CENTER" textFill="#f4d03f">
+            <Label layoutX="824.0" layoutY="242.0" prefHeight="27.0" prefWidth="121.0" text="Tech_Code : ">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cmbTechCode" labelFloat="true" layoutX="960.0" layoutY="237.0" prefHeight="28.0" prefWidth="161.0" promptText="Code" />
+            <TextField fx:id="txtName" layoutX="850.0" layoutY="300.0" prefHeight="35.0" prefWidth="360.0" promptText="Technisiyan Name">
+               <font>
+                  <Font size="16.0" />
+               </font></TextField>
+            <TextField fx:id="txtContact" layoutX="850.0" layoutY="349.0" prefHeight="35.0" prefWidth="361.0" promptText="Contact">
+               <font>
+                  <Font size="16.0" />
+               </font></TextField>
+            <JFXButton fx:id="btnAdd" contentDisplay="RIGHT" layoutX="1283.0" layoutY="420.0" onAction="#btnAdd_OnAction" prefHeight="52.0" prefWidth="157.0" style="-fx-background-color: #34495e; -fx-background-radius: 50;" text="+ Add" textAlignment="CENTER" textFill="#f4d03f">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

@@ -94,7 +94,7 @@
                   <Font name="System Bold Italic" size="25.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnLogOut" contentDisplay="RIGHT" layoutX="174.0" layoutY="924.0" onAction="#btnLogOutOnAction" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #F5B7B1; -fx-background-radius: 50;" text="Login" textFill="#34495e">
+            <JFXButton fx:id="btnLogOut" contentDisplay="RIGHT" layoutX="171.0" layoutY="921.0" onAction="#btnLogOutOnAction" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #F5B7B1; -fx-background-radius: 50;" text="Login" textFill="#34495e">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -230,29 +230,29 @@
                         <Image url="@../asserts.icon/electrical_work_templates_ppt_340124.jpg" />
                      </image>
                   </ImageView>
-                  <Label layoutX="1095.0" layoutY="93.0" prefHeight="140.0" prefWidth="369.0" text="About US ," textFill="WHITE">
+                  <Label layoutX="985.0" layoutY="93.0" prefHeight="140.0" prefWidth="369.0" text="About US ," textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="64.0" />
                      </font>
                   </Label>
-                  <Label layoutX="914.0" layoutY="248.0" text="Experience the difference with &#10;CN electricals. Our commitment to &#10;excellence shines through in every &#10;aspect of our work, from the quality &#10;of our craftsmanship to the integrity &#10;of our customer relationships. &#10;Discover the power of partnership &#10;and the assurance of exceptional &#10;service with us ." textFill="#f4faff">
+                  <Label layoutX="870.0" layoutY="248.0" prefHeight="360.0" prefWidth="554.0" text="Experience the difference with CN electricals. &#10;Our commitment to excellence shines &#10;through in every aspect of our work, &#10;from the quality of our craftsmanship &#10;to the integrity of our customer &#10;relationships. Discover the power of &#10;partnership and the assurance of &#10;exceptional service with us ." textFill="#f4faff">
                      <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="System Italic" size="28.0" />
                      </font>
                   </Label>
-                  <Label layoutX="894.0" layoutY="872.0" prefHeight="45.0" prefWidth="438.0" text="cnelectrical@gmail.com" textFill="#ecf0f1">
+                  <Label layoutX="897.0" layoutY="785.0" prefHeight="45.0" prefWidth="438.0" text="cnelectrical@gmail.com" textFill="#ecf0f1">
                      <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="894.0" layoutY="944.0" prefHeight="50.0" prefWidth="601.0" text="115/3, Baddegama Rode, Poddala, Galle" textFill="#ecf0f1">
+                  <Label layoutX="897.0" layoutY="857.0" prefHeight="50.0" prefWidth="477.0" text="115/3, Baddegama Rode, Poddala, Galle" textFill="#ecf0f1">
                      <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="894.0" layoutY="904.0" prefHeight="50.0" prefWidth="484.0" text="Contact Number :  0772032675" textFill="#ecf0f1">
+                  <Label layoutX="897.0" layoutY="817.0" prefHeight="50.0" prefWidth="484.0" text="Contact Number :  0772032675" textFill="#ecf0f1">
                      <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                </children>

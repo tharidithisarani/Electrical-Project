@@ -270,4 +270,12 @@ public class SupplierFormController {
         return pstm.executeQuery().next();
     }
 
+    public void btnTechDetail_OnAction(ActionEvent actionEvent) throws IOException {
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/item.fxml"));
+        Stage stage = (Stage) rootSupplier.getScene().getWindow();
+        rootSupplier.getChildren().clear();
+        rootSupplier.getChildren().add(rootNode);
+        stage.setTitle("Item Form");
+        stage.centerOnScreen();
+    }
 }

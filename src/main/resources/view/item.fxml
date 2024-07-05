@@ -15,19 +15,40 @@
    <children>
       <Pane layoutY="150.0" prefHeight="900.0" prefWidth="1500.0">
          <children>
-            <ImageView fitHeight="900.0" fitWidth="1500.0" opacity="0.72">
+            <ImageView fitHeight="900.0" fitWidth="1500.0">
                <image>
-                  <Image url="@../asserts.icon/bigstock-Electrician-Work-With-Electric-331842238-768x512.jpg" />
+                  <Image url="@../asserts.icon/electrical_work_templates_ppt_340148.jpg" />
                </image>
             </ImageView>
-            <TextField fx:id="txtCode" layoutX="247.0" layoutY="78.0" prefHeight="26.0" prefWidth="606.0" promptText="Item Code :" />
-            <TextField fx:id="txtDescription" layoutX="142.0" layoutY="169.0" prefHeight="26.0" prefWidth="606.0" promptText="Item Description :" />
-            <TextField fx:id="txtUnitPrice" layoutX="986.0" layoutY="170.0" prefHeight="35.0" prefWidth="346.0" promptText="Unit Price :" />
-            <TextField fx:id="txtQtyOnHand" layoutX="881.0" layoutY="237.0" prefHeight="35.0" prefWidth="262.0" promptText="Qty. on Hand :" />
-            <JFXButton id="btnAddNewCustomer" fx:id="btnAddNewItem" layoutX="1233.0" layoutY="33.0" onAction="#btnAddNew_OnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand;" text="+ New Item" />
-            <JFXButton id="btnSave" fx:id="btnSave" layoutX="942.0" layoutY="346.0" onAction="#btnSave_OnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Save" />
-            <JFXButton id="btnDelete" fx:id="btnDelete" layoutX="1026.0" layoutY="346.0" onAction="#btnDelete_OnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Delete" />
-            <TableView fx:id="tblItems" layoutX="398.0" layoutY="493.0" prefHeight="285.0" prefWidth="615.0">
+            <TextField fx:id="txtCode" layoutX="589.0" layoutY="79.0" prefHeight="26.0" prefWidth="606.0" promptText="Item Code :">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <TextField fx:id="txtDescription" layoutX="590.0" layoutY="164.0" prefHeight="26.0" prefWidth="606.0" promptText="Name : ">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <TextField fx:id="txtUnitPrice" layoutX="589.0" layoutY="263.0" prefHeight="35.0" prefWidth="346.0" promptText="Unit Price :">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <TextField fx:id="txtQtyOnHand" layoutX="585.0" layoutY="350.0" prefHeight="35.0" prefWidth="262.0" promptText="Qty. on Hand :">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <JFXButton id="btnAddNewCustomer" fx:id="btnAddNewItem" layoutX="1302.0" layoutY="39.0" onAction="#btnAddNew_OnAction" prefHeight="44.0" prefWidth="157.0" style="-fx-background-color: #3498db;" text="+ New Item" textFill="#f5f3f3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></JFXButton>
+            <JFXButton id="btnSave" fx:id="btnSave" layoutX="1334.0" layoutY="258.0" onAction="#btnSave_OnAction" prefHeight="44.0" prefWidth="118.0" style="-fx-background-color: #3498db;" text="Save" textFill="#f5f3f3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></JFXButton>
+            <JFXButton id="btnDelete" fx:id="btnDelete" layoutX="1330.0" layoutY="315.0" onAction="#btnDelete_OnAction" prefHeight="44.0" prefWidth="118.0" style="-fx-background-color: #3498db;" text="Delete" textFill="#f5f3f3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></JFXButton>
+            <TableView fx:id="tblItems" layoutX="794.0" layoutY="470.0" prefHeight="343.0" prefWidth="590.0">
                <columns>
                   <TableColumn prefWidth="97.0" text="Code" />
                   <TableColumn prefWidth="204.0" text="Description" />
@@ -35,6 +56,26 @@
                   <TableColumn prefWidth="163.0" text="Unit Price" />
                </columns>
             </TableView>
+            <Label layoutX="589.0" layoutY="316.0" text="QTY " textFill="#1b1b1b">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="589.0" layoutY="132.0" text="Name " textFill="#1b1b1b">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="589.0" layoutY="225.0" text="Unit Price " textFill="#1b1b1b">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="589.0" layoutY="44.0" text="Item Code " textFill="#1b1b1b">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane prefHeight="150.0" prefWidth="1500.0" style="-fx-background-color: #5D6D7E;">
@@ -44,33 +85,13 @@
                   <Font name="System Bold Italic" size="58.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnSupplier" layoutX="1130.0" layoutY="40.0" onAction="#btnSupplierOnAction" prefHeight="69.0" prefWidth="234.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="Supplier" textFill="#f4d03f">
+            <JFXButton fx:id="btnSupplier" layoutX="1130.0" layoutY="40.0" onAction="#btnSupplierOnAction" prefHeight="69.0" prefWidth="234.0" style="-fx-background-color: #909497; -fx-background-radius: 50;" text="Company" textFill="#f4d03f">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </JFXButton>
          </children>
       </Pane>
-      <Label layoutX="59.0" layoutY="234.0" text="Item Code : ">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="776.0" layoutY="327.0" text="Unit Price :">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="780.0" layoutY="392.0" text="QTY">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="57.0" layoutY="323.0" text="Name :">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
     
    </children>
 </AnchorPane>

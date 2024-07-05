@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 public class MachinTm {
     private String code;
-    private String m_name;
-    private String tech_ID;
-    private JFXButton btnRemove;
+    private String description;
+    private String status;
 }
