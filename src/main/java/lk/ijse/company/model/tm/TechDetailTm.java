@@ -1,4 +1,4 @@
-package lk.ijse.company.model;
+package lk.ijse.company.model.tm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 
-public class TechDetail {
+public class TechDetailTm {
     private String code;
     private String nic;
     private String name;

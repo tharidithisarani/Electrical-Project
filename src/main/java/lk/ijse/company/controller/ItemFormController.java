@@ -106,7 +106,10 @@ public class ItemFormController {
             Statement stm = connection.createStatement();
             ResultSet rst = stm.executeQuery("SELECT * FROM Item");
             while (rst.next()) {
-                tblItems.getItems().add(new ItemTm(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
+                tblItems.getItems().add(new ItemTm(rst.getString("code"),
+                        rst.getString("description"),
+                        rst.getBigDecimal("unitPrice"),
+                        rst.getInt("qtyOnHand")));
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -119,11 +122,13 @@ public class ItemFormController {
         txtDescription.setDisable(false);
         txtUnitPrice.setDisable(false);
         txtQtyOnHand.setDisable(false);
+
         txtCode.clear();
         txtCode.setText(generateNewId());
         txtDescription.clear();
         txtUnitPrice.clear();
         txtQtyOnHand.clear();
+
         txtDescription.requestFocus();
         btnSave.setDisable(false);
         btnSave.setText("Save");

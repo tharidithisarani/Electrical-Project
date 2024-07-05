@@ -250,3 +250,17 @@ CREATE TABLE `OrderDetails` (
                                 CONSTRAINT `OrderDetails_ibfk_1` FOREIGN KEY (`oid`) REFERENCES `Orders` (`oid`) ON DELETE CASCADE ON UPDATE CASCADE,
                                 CONSTRAINT `OrderDetails_ibfk_2` FOREIGN KEY (`itemCode`) REFERENCES `Item` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `techDetail`;
+CREATE TABLE `techDetail` (
+                                `code` varchar(255) NOT NULL,
+                                `NIC` varchar(20) NOT NULL,
+                                `name` varchar(255) NOT NULL,
+                                `address` varchar(255) NOT NULL,
+                                `contact` varchar(10) NOT NULL,
+                                `bankName` varchar(255) NOT NULL,
+                                `accountNum` varchar(30) NOT NULL,
+                                `toolCode` varchar(255) NOT NULL,
+                                `description` varchar(255) NOT NULL,
+                                PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
