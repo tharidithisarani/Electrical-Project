@@ -18,4 +18,7 @@ public class TechDetail {
     private String accountNum;
     private String toolCode;
     private String description;
+
+    public TechDetail(String s, String name, String contact) {
+    }
 }

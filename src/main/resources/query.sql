@@ -264,3 +264,14 @@ CREATE TABLE `techDetail` (
                                 `description` varchar(255) NOT NULL,
                                 PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `Technisiyan`;
+CREATE TABLE `Technisiyan` (
+                                `code` varchar(255) NOT NULL,
+                                `techCode` varchar(255) NOT NULL,
+                                `name` varchar(255) NOT NULL,
+                                `contact` varchar(10) NOT NULL,
+                                PRIMARY KEY (`code`),
+                                KEY `techCode` (`techCode`),
+                                CONSTRAINT `Technisiyan_ibfk_1` FOREIGN KEY (`techCode`) REFERENCES `techDetail` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
